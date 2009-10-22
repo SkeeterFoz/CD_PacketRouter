@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO8859-1"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns">
+	<graph edgedefault="undirected">
+	<key id="name" for="node" attr.name="name" attr.type="string"/>
+	<key id="state" for="node" attr.name="state" attr.type="string"/>
+	<key id="name" for="node" attr.name="sa" attr.type="string"/>
+
+		<node id="0">
+			<data key="name">rot1</data>
+			<data key="state">true</data>
+			<data key="sa">Embratel</data>
+		</node>
+		<node id="1">
+			<data key="name">rot2</data>
+			<data key="state">true</data>
+			<data key="sa">Embratel</data>
+		</node>
+		<node id="2">
+			<data key="name">rot3</data>
+			<data key="state">true</data>
+			<data key="sa">RNP</data>
+		</node>
+
+		<edge source="rot1" target="rot2"></edge>
+
+		<edge source="rot1" target="rot2"></edge>
+
+		<edge source="rot1" target="rot2"></edge>
+
+	</graph>
+</graphml>
