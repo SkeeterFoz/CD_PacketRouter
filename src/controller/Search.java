@@ -616,11 +616,8 @@ public class Search {
 				if (node == node2) 
 					continue;
 				
-				ArrayList<Packet> pktlist = new ArrayList<Packet>();
-				node2.getPacotes();
-				pktlist.add(pkt);
-				node2.setPacotes(pktlist);
-				
+				node2.getPacotes().add(pkt);
+
 			}
 			
 		}

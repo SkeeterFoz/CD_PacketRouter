@@ -11,6 +11,7 @@ import java.util.Vector;
 import model.Edge;
 import model.Heuristic;
 import model.Node;
+import model.Packet;
 
 public class Parser {
 
@@ -73,6 +74,7 @@ public class Parser {
 				strtok = new StringTokenizer(strtok.nextToken(), ",");
 				
 				Node n = new Node();
+				n.setPacotes(new ArrayList<Packet>());
 				n.setId(j);
 				n.setName(strtok.nextToken().trim());
 				n.setState(strtok.nextToken().trim().equalsIgnoreCase("up") ? true : false);
