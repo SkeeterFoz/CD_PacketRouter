@@ -1,0 +1,65 @@
+ligacao(Oradea, Zerind, [71, 0], [1, 0], [0, 0], [1, 0]).
+ligacao(Zerind, Arad, [75, 0], [2, 0], [0, 0], [1, 0]).
+ligacao(Arad, Sibiu, [140, 0], [3, 0], [0, 0], [1, 0]).
+ligacao(Oradea, Sibiu, [151, 0], [4, 0], [0, 0], [1, 0]).
+ligacao(Sibiu, Fagaras, [99, 0], [5, 0], [0, 0], [1, 0]).
+ligacao(Sibiu, Rimnicu Vilcea, [80, 0], [6, 0], [0, 0], [1, 0]).
+ligacao(Fagaras, Bucharest, [211, 0], [7, 0], [0, 0], [1, 0]).
+ligacao(Arad, Timisoara, [118, 0], [8, 0], [0, 0], [1, 0]).
+ligacao(Timisoara, Lugoj, [111, 0], [9, 0], [0, 0], [1, 0]).
+ligacao(Lugoj, Mehadia, [70, 0], [10, 0], [0, 0], [1, 0]).
+ligacao(Mehadia, Dobreta, [75, 0], [11, 0], [0, 0], [1, 0]).
+ligacao(Dobreta, Craiova, [120, 0], [12, 0], [0, 0], [1, 0]).
+ligacao(Craiova, Pitesti, [138, 0], [13, 0], [0, 0], [1, 0]).
+ligacao(Craiova, Rimnicu Vilcea, [138, 0], [14, 0], [0, 0], [1, 0]).
+ligacao(Rimnicu Vilcea, Pitesti, [97, 0], [15, 0], [0, 0], [1, 0]).
+ligacao(Pitesti, Bucharest, [101, 0], [16, 0], [0, 0], [1, 0]).
+ligacao(Giurgiu, Bucharest, [90, 0], [17, 0], [0, 0], [1, 0]).
+ligacao(Bucharest, Urziceni, [85, 0], [18, 0], [0, 0], [1, 0]).
+ligacao(Urziceni, Hirsova, [98, 0], [19, 0], [0, 0], [1, 0]).
+ligacao(Hirsova, Eforie, [86, 0], [20, 0], [0, 0], [1, 0]).
+ligacao(Urziceni, Vaslui, [148, 0], [21, 0], [0, 0], [1, 0]).
+ligacao(Vaslui, Iasi, [92, 0], [22, 0], [0, 0], [1, 0]).
+ligacao(Iasi, Neamt, [87, 0], [23, 0], [0, 0], [1, 0]).
+
+caracteristica(Arad, up, BR).
+caracteristica(Bucharest, up, BR).
+caracteristica(Craiova, up, BR).
+caracteristica(Dobreta, up, BR).
+caracteristica(Eforie, up, BR).
+caracteristica(Fagaras, up, BR).
+caracteristica(Giurgiu, up, BR).
+caracteristica(Hirsova, up, BR).
+caracteristica(Iasi, up, BR).
+caracteristica(Lugoj, up, BR).
+caracteristica(Mehadia, up, BR).
+caracteristica(Neamt, up, BR).
+caracteristica(Oradea, up, BR).
+caracteristica(Pitesti, up, BR).
+caracteristica(Rimnicu Vilcea, up, BR).
+caracteristica(Sibiu, up, BR).
+caracteristica(Timisoara, up, BR).
+caracteristica(Urziceni, up, BR).
+caracteristica(Vaslui, up, BR).
+caracteristica(Zerind, up, BR).
+
+h(Arad, Bucharest, 366).
+h(Bucharest, Bucharest, 0).
+h(Craiova, Bucharest, 160).
+h(Dobreta, Bucharest, 242).
+h(Eforie, Bucharest, 161).
+h(Fagaras, Bucharest, 178).
+h(Giurgiu, Bucharest, 77).
+h(Hirsova, Bucharest, 151).
+h(Iasi, Bucharest, 226).
+h(Lugoj, Bucharest, 244).
+h(Mehadia, Bucharest, 241).
+h(Neamt, Bucharest, 234).
+h(Oradea, Bucharest, 380).
+h(Pitesti, Bucharest, 98).
+h(Rimnicu Vilcea, Bucharest, 193).
+h(Sibiu, Bucharest, 253).
+h(Timisoara, Bucharest, 329).
+h(Urziceni, Bucharest, 80).
+h(Vaslui, Bucharest, 199).
+h(Zerind, Bucharest, 374).

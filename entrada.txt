@@ -1,0 +1,48 @@
+/* Formato do Arquivo de Dados
+
+/* Existência de Ligação entre Roteadores
+/* ligacao(Rot1, Rot2, [MetricaDistancia, MetricaUsuarioDistancia], [MetricaTempoRetardo, MetricaUsuarioTempo], [MetricaLarguraBanda, MetricaUsuarioBanda], [MetricaHopCount, MetricaUsuarioHop]).
+/* MetricaDistancia: km
+/* MetricaTempoRetardo: ms
+/* MetricaLarguraBanda: mbs
+/* MetricaHopCount: 1
+
+
+ligacao(rotA, rotB, [10,1], [300,100], [24,10], [1,2]).
+ligacao(rotA, rotD, [3,10], [3,10], [12,40], [1,2]).
+ligacao(rotB, rotD, [4,30], [30,10], [2,15], [1,2]).
+ligacao(rotD, rotC, [10,30], [30,10], [2,15], [1,2]).
+ligacao(rotD, rotE, [2,30], [30,10], [2,15], [1,2]).
+ligacao(rotC, rotE, [5,30], [30,10], [2,15], [1,2]).
+ligacao(rotA, rotF, [5,1], [300,100], [24,10], [1,2]).
+ligacao(rotF, rotE, [1,1], [300,100], [24,10], [1,2]).
+
+
+/* caracteristica(Rot, Estado, SA).
+
+caracteristica(rotA, up, EMBRATEL).
+caracteristica(rotB, up, RNP).
+caracteristica(rotC, up, RNP).
+caracteristica(rotD, up, RNP).
+caracteristica(rotE, down, RNP).
+caracteristica(rotF, up, RNP).
+
+
+/* Heurística: Distância em Linha Reta
+
+h(rotA, rotB, 7).
+h(rotA, rotC, 4).
+h(rotA, rotD, 2).
+h(rotA, rotE, 4).
+h(rotA, rotF, 5).
+h(rotB, rotC, 4).
+h(rotB, rotD, 3).
+h(rotB, rotE, 5).
+h(rotB, rotF, 6).
+h(rotC, rotD, 5).
+h(rotC, rotE, 4).
+h(rotC, rotF, 4).
+h(rotD, rotE, 10).
+h(rotD, rotF, 3).
+h(rotE, rotF, 1).
+
