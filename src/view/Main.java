@@ -2,9 +2,7 @@ package view;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import java.util.Timer;
 
 import controller.Parser;
 import controller.Graph;
@@ -19,10 +17,7 @@ import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
@@ -34,6 +29,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
@@ -41,7 +37,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 
-public class Main { //extends org.eclipse.swt.widgets.Composite {
+public class Main {
 
 
 	private Shell shell;
@@ -61,8 +57,13 @@ public class Main { //extends org.eclipse.swt.widgets.Composite {
 	private Node nodeDest;
 	private int metricValue;
 	
+	private List listDown;
+	private String[] textListDown;
+	private List listUp;
+	private String[] textListUp;
+	
 	private boolean astar = false;
-	private boolean width =false;
+	private boolean width = false;
 	
 	private String fileName;
 	private Parser parser = new Parser(); 
@@ -71,10 +72,13 @@ public class Main { //extends org.eclipse.swt.widgets.Composite {
 	private Combo destination;
 	private Combo metric;
 	private ArrayList<Edge> list = null;
+	private ArrayList<Node> nodeList;
 	private java.awt.Frame graphFrame;
 	private java.awt.Panel panel;
 	
-	private static final String[] metrics = {"Dist�ncia", "Tempo de Retardo", 
+	private Timer timer;
+	
+	private static final String[] metrics = {"Distância", "Tempo de Retardo", 
 	     "Hop Count", "Largura de Banda"};
 	
 	
@@ -86,9 +90,7 @@ public class Main { //extends org.eclipse.swt.widgets.Composite {
 	
 	private void initGUI() {
 		try{
-			//this.setSize(new org.eclipse.swt.graphics.Point(800,600));
-			//this.setLayout(new GridLayout(2,true));
-			
+
 			mainMenu = new Menu(shell, SWT.BAR);
 			shell.setMenuBar(mainMenu);
 				fileMenuItem = new MenuItem(mainMenu, SWT.CASCADE);
@@ -130,7 +132,7 @@ public class Main { //extends org.eclipse.swt.widgets.Composite {
 								btnOk.setText("Ok");
 								btnOk.addListener(SWT.Selection, new Listener() {
 									public void handleEvent(Event event) {
-										shell.dispose();
+										dialog.dispose();
 									}
 								});
 								dialog.open();
@@ -164,11 +166,9 @@ public class Main { //extends org.eclipse.swt.widgets.Composite {
 						
 				
 			groupComposite = new Composite(shell, SWT.NONE);
-			//groupComposite.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 			groupComposite.setLayout(new FillLayout());
 			
 			Composite fakeComposite = new Composite(groupComposite, SWT.BEGINNING);
-			//groupComposite.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 			fakeComposite.setLayout(new RowLayout(SWT.BEGINNING));
 			
 			Group groupRouter = new Group(fakeComposite, SWT.SHADOW_IN);
@@ -196,7 +196,7 @@ public class Main { //extends org.eclipse.swt.widgets.Composite {
 				});
 				
 			Group groupMetric = new Group(fakeComposite, SWT.SHADOW_IN);
-			groupMetric.setText("M�trica");
+			groupMetric.setText("Métrica");
 			groupMetric.setLayout(new RowLayout(SWT.VERTICAL));
 				metric = new Combo(groupMetric, SWT.DROP_DOWN);
 				metric.setItems(metrics);
@@ -207,36 +207,96 @@ public class Main { //extends org.eclipse.swt.widgets.Composite {
 				    			  metricValue = i;
 				    		  }
 				    	  }
+				    	  refreshGraph();
 				    	  
 				      }
 				      public void widgetDefaultSelected(SelectionEvent e) {
 				        
 				        }
 				});
+			
+				Group groupConfig = new Group(fakeComposite, SWT.SHADOW_IN);
+				groupConfig.setText("Configuração");
+				groupConfig.setLayout(new RowLayout(SWT.HORIZONTAL));
+				
+					Group groupDown = new Group(groupConfig, SWT.SHADOW_IN);
+					groupDown.setText("Down");
+					groupDown.setLayout(new RowLayout(SWT.HORIZONTAL));
 					
-			Group groupAlg = new Group(fakeComposite, SWT.SHADOW_IN);
-			groupAlg.setText("Algoritmo");
-			groupAlg.setLayout(new FillLayout(SWT.HORIZONTAL));
-				Button btnAce = new Button(groupAlg, SWT.RADIO);
-				btnAce.setText("A*");
-				btnAce.addSelectionListener(new SelectionListener() {
-				      public void widgetSelected(SelectionEvent e) {
-				    	  astar = true;
-				      }
-				      public void widgetDefaultSelected(SelectionEvent e) {
-				    	  astar = true;
-				      }
-				});
-				Button btnwidth = new Button(groupAlg, SWT.RADIO);
-				btnwidth.setText("Largura");
-				btnwidth.addSelectionListener(new SelectionListener() {
-				      public void widgetSelected(SelectionEvent e) {
-				    	  width = true;
-				      }
-				      public void widgetDefaultSelected(SelectionEvent e) {
-				          width = true;
-				      }
-				});
+					listDown = new List(groupDown, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+					listDown.setSize(100, 60);
+					
+					listDown.addSelectionListener(new SelectionAdapter() {
+						public void widgetSelected(SelectionEvent evt) {
+							textListDown = listDown.getSelection();
+						}
+					});
+					
+					Composite buttonComposite = new Composite(groupConfig, SWT.BEGINNING);
+					buttonComposite.setLayout(new RowLayout(SWT.VERTICAL));
+					
+					Button btnDown = new Button(buttonComposite, SWT.PUSH);
+					btnDown.setText(">>");
+					
+					btnDown.addListener(SWT.Selection, new Listener() {
+						public void handleEvent(Event event) {
+							try{
+								for (int i = 0; i < textListDown.length; i++){
+									listUp.add(textListDown[i]);
+									listDown.remove(textListDown[i]);
+									for (Node node:nodeList){
+								    	if (node.getName().equalsIgnoreCase(textListDown[i])){
+								    		node.setState(true);
+								    	}
+								    }
+								}
+							textListDown = null;
+							graph.setNodelist(nodeList);
+							refreshGraph();
+							}catch(Exception e){
+								System.out.println(e.getMessage());
+							}
+						}
+					});
+					
+					Button btnUp = new Button(buttonComposite, SWT.PUSH);
+					btnUp.setText("<<");
+					btnUp.addListener(SWT.Selection, new Listener() {
+						public void handleEvent(Event event) {
+							try{
+								for (int i = 0; i < textListUp.length; i++){
+									listDown.add(textListUp[i]);
+									listUp.remove(textListUp[i]);
+									for (Node node:nodeList){
+								    	if (node.getName().equalsIgnoreCase(textListUp[i])){
+								    		node.setState(false);
+								    	}
+								    }
+								}
+							textListDown = null;
+							graph.setNodelist(nodeList);
+							refreshGraph();
+							}catch(Exception e){
+								System.out.println(e.getMessage());
+							}
+						}
+					});
+					
+					Group groupUp = new Group(groupConfig, SWT.SHADOW_IN);
+					groupUp.setText("Up");
+					groupUp.setLayout(new RowLayout(SWT.HORIZONTAL));
+					
+					listUp = new List(groupUp, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);  
+					listUp.setSize(100, 60);
+	
+					listUp.addSelectionListener(new SelectionAdapter() {
+						public void widgetSelected(SelectionEvent evt) {
+							textListUp = listUp.getSelection();
+						}
+					});
+					
+				
+				
 				
 			Button btnSearch = new Button(fakeComposite, SWT.PUSH);
 			btnSearch.setText("Procurar");
@@ -258,43 +318,16 @@ public class Main { //extends org.eclipse.swt.widgets.Composite {
 //					for (Edge name : list){
 //						System.out.println(name.getSrc().getName() + "->" + name.getDst().getName());
 //					}
-//					String tmppath = "tmppath.xml";
 //					
-//					try {
-//						System.out.println("antes metricvalue-> " + metricValue);
-//						parser.GraphToXml(graph, list, metricValue, tmppath);
-//						//panel = new java.awt.Panel(new java.awt.BorderLayout());
-//						graphFrame.remove(panel);
-//						
-//						panel = new java.awt.Panel(new java.awt.BorderLayout());						
-//					    panel.add(GraphViewEdgeDecoratorV2.demo(tmppath, "name", graphComposite.getSize().x, graphComposite.getSize().x));
-//					    
-//					    list = null;
-//					   	    
-//					    graphFrame.add(panel);
-//					    graphFrame.repaint();
-//					    graphFrame.setVisible(true);
-//					    
-//					    
-//					} catch (IOException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-//					//list.add(graph.getEdgelist().get(16));
-//					//list.add(graph.getEdgelist().get(16));
-//					//list.add(graph.getEdgelist().get(16));
-//					
-					
+//					refreshGraph();					
 				}
 			});
 			
 			graphComposite = new Composite(shell, SWT.EMBEDDED);
-			//graphComposite.setLayout(new GridLayout());
 			graphComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
-			//graphComposite.setSize(500, 350);
 			
 			
-			graphFrame = SWT_AWT.new_Frame(graphComposite);
+			graphFrame = SWT_AWT.new_Frame(graphComposite);	
 			
 			Composite hidden = new Composite(shell, SWT.NONE);
 			
@@ -326,13 +359,13 @@ public class Main { //extends org.eclipse.swt.widgets.Composite {
 			rotAvailable.setBackground(shell.getDisplay().getSystemColor(SWT.COLOR_BLUE));
 			rotAvailable.setText("   ");
 			CLabel available = new CLabel(groupSubLink, SWT.LEFT);
-			available.setText("Dispon�vel");
+			available.setText("Disponível");
 			
 			CLabel rotUnAvailable = new CLabel(groupSubLink, SWT.LEFT);
 			rotUnAvailable.setBackground(shell.getDisplay().getSystemColor(SWT.COLOR_RED));
 			rotUnAvailable.setText("   ");
 			CLabel unAvailable = new CLabel(groupSubLink, SWT.LEFT);
-			unAvailable.setText("Indispon�vel");
+			unAvailable.setText("Indisponível");
 			
 			CLabel rotPath = new CLabel(groupSubLink, SWT.LEFT);
 			rotPath.setBackground(shell.getDisplay().getSystemColor(SWT.COLOR_GREEN));
@@ -341,12 +374,11 @@ public class Main { //extends org.eclipse.swt.widgets.Composite {
 			path.setText("Caminho");
 			
 			
-			
 		}catch (Exception e){
 			System.out.println(e.getMessage());
 		}
 	}
-		
+	
 	
 	public void openFile()
 	{
@@ -366,6 +398,9 @@ public class Main { //extends org.eclipse.swt.widgets.Composite {
 				parser.GraphToXml(graph, list, 0, infile);
 				
 				source.setItems(graph.getNodeNames());
+				
+				nodeList = graph.getNodelist();
+				
 				destination.setItems(graph.getNodeNames());
 				
 				if (panel != null){
@@ -376,13 +411,20 @@ public class Main { //extends org.eclipse.swt.widgets.Composite {
 				panel = new java.awt.Panel(new java.awt.BorderLayout());
 			    panel.add(GraphViewEdgeDecoratorV2.demo(infile, "name", graphComposite.getSize().x, graphComposite.getSize().y));
 
-			    //panel.add(teste);
-			    //panel.setSize(500, 350);
+			    for (Node node:nodeList){
+			    	if (node.isState()){
+			    		listUp.add(node.getName());
+			    	}else{
+			    		listDown.add(node.getName());
+			    	}
+			    }
+			    
 			    graphFrame.add(panel);
-			    //graphFrame = teste;
 			    panel.setVisible(true);
 			    graphFrame.setVisible(true);
-			    //graphFrame.setSize(500, 350);
+			    
+			    timer = new Timer();
+			    timer.schedule(new Search(), 0, 30000);
 			    
 			    
 			}else
@@ -394,25 +436,38 @@ public class Main { //extends org.eclipse.swt.widgets.Composite {
 
 	}
 	
+	public void refreshGraph(){
+		try {
+			String tmppath = "tmppath.xml";
+			parser.GraphToXml(graph, list, metricValue, tmppath);
+			graphFrame.remove(panel);
+			graphFrame.dispose();
+			
+			panel = new java.awt.Panel(new java.awt.BorderLayout());						
+		    panel.add(GraphViewEdgeDecoratorV2.demo(tmppath, "name", graphComposite.getSize().x, graphComposite.getSize().x));
+		    
+		    list = null;
+		   	    
+		    graphFrame.add(panel);
+		    graphFrame.repaint();
+		    graphFrame.setVisible(true);
+		    
+		    
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public static void main(String[] args) {
 		Display display = Display.getDefault();
 		Shell shell = new Shell(display);
-		shell.setText("Trabalho de Comunicação de Dados");
+		shell.setText("Trabalho de Comunicação de Dados - Simulação de Roteamento de Pacotes em Rede");
 		shell.setMaximized(true);
 		Main inst = new Main(shell, SWT.NULL);
-		//Point size = inst.getSize();
 		GridLayout layout = new GridLayout(2,false);
 		
 		shell.setLayout(layout);
 		shell.layout();
-		/*if(size.x == 0 && size.y == 0) {
-			inst.pack();
-			shell.pack();
-		} else {
-			Rectangle shellBounds = shell.computeTrim(0, 0, size.x, size.y);
-			shell.setSize(shellBounds.width, shellBounds.height);
-		}*/
 		shell.open();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())

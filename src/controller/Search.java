@@ -3,6 +3,7 @@ package controller;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.TimerTask;
 
 import org.eclipse.swt.internal.cde.DtActionArg;
 
@@ -11,7 +12,7 @@ import model.Heuristic;
 import model.Node;
 import model.Packet;
 
-public class Search {
+public class Search extends TimerTask {
 	/**
 	 * Função que encontra o menor caminho entre dois nós com ajuda de uma heurística
 	 * @param source Nó de origem
@@ -576,6 +577,10 @@ public class Search {
 			return true;
 		}	
 		return false;
+	}
+	
+	public void run() {
+		System.out.println("UHEEET!");
 	}
 	
 	public static void estadoDeEnlace(Graph graph, int metric) 
