@@ -31,6 +31,14 @@ public class Node {
 	 * Filhos deste vértice
 	 */
 	private ArrayList<Node> child;
+	
+	/**
+	 * Tabela de Roteamento
+	 * @return
+	 */
+	private ArrayList<Table> tabela;
+	
+	private ArrayList<Packet> pacotes;
 
 	public long getId() {
 		return id;
@@ -95,4 +103,22 @@ public class Node {
 	public void setChild(ArrayList<Node> child) {
 		this.child = child;
 	}
+
+	public ArrayList<Table> getTabela() {
+		return tabela;
+	}
+
+	public void setTabela(ArrayList<Table> tabela) {
+		this.tabela = tabela;
+	}
+
+	public ArrayList<Packet> getPacotes() {
+		return pacotes;
+	}
+
+	public void setPacotes(ArrayList<Packet> pacotes) {
+		this.pacotes = pacotes;
+	}
+	
+	
 }

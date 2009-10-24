@@ -101,7 +101,7 @@ public class Parser {
 
 				
 				if ((src == null) || (dst == null)) {
-					throw new Exception("Aresta inválida");
+					throw new Exception("Aresta invï¿½lida");
 				}
 				
 				e.setId(j);
@@ -168,7 +168,7 @@ public class Parser {
 				dst = g.getNodeByName(strtok.nextToken().trim());
 				
 				if ((src == null) || (dst == null)) {
-					throw new Exception("Aresta inválida");
+					throw new Exception("Aresta invï¿½lida");
 				}
 				
 				h.setSrc(src);

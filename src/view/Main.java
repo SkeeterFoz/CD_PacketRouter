@@ -74,7 +74,7 @@ public class Main { //extends org.eclipse.swt.widgets.Composite {
 	private java.awt.Frame graphFrame;
 	private java.awt.Panel panel;
 	
-	private static final String[] metrics = {"Distância", "Tempo de Retardo", 
+	private static final String[] metrics = {"Distï¿½ncia", "Tempo de Retardo", 
 	     "Hop Count", "Largura de Banda"};
 	
 	
@@ -116,15 +116,15 @@ public class Main { //extends org.eclipse.swt.widgets.Composite {
 				helpMenuItem.setText("Ajuda");
 					helpMenu = new Menu(helpMenuItem);
 						contentsMenuItem = new MenuItem(helpMenu, SWT.CASCADE);
-						contentsMenuItem.setText("Conteúdo");
+						contentsMenuItem.setText("Conteï¿½do");
 						contentsMenuItem.addSelectionListener(new SelectionAdapter() {
 							public void widgetSelected(SelectionEvent evt) {
 								final Shell dialog = new Shell(shell);
-							    dialog.setText("Conteúdo");
+							    dialog.setText("Conteï¿½do");
 							    dialog.setSize(300, 150);
 							    dialog.setLayout(new RowLayout(SWT.VERTICAL));
-							    new Label(dialog, SWT.NONE).setText("Este trabalho contém a implementação\n" +
-							    		"dos algoritmos A* e Busca em Largura para a \nsolução do problema de " +
+							    new Label(dialog, SWT.NONE).setText("Este trabalho contï¿½m a implementaï¿½ï¿½o\n" +
+							    		"dos algoritmos A* e Busca em Largura para a \nsoluï¿½ï¿½o do problema de " +
 							    		"roteamento \nem redes de computadores.\n");
 							    Button btnOk = new Button(dialog, SWT.PUSH);
 								btnOk.setText("Ok");
@@ -145,8 +145,8 @@ public class Main { //extends org.eclipse.swt.widgets.Composite {
 							    dialog.setText("Sobre");
 							    dialog.setSize(350, 190);
 							    dialog.setLayout(new RowLayout(SWT.VERTICAL));
-							    new Label(dialog, SWT.NONE).setText("Trabalho de Inteligência Artificial - 1º Bimestre\n\n" +
-							    		"Alunos:\n" + "Igor Henrique da Cruz\n" + "Newton Muchael José\n" + 
+							    new Label(dialog, SWT.NONE).setText("Trabalho de Inteligï¿½ncia Artificial - 1ï¿½ Bimestre\n\n" +
+							    		"Alunos:\n" + "Igor Henrique da Cruz\n" + "Newton Muchael Josï¿½\n" + 
 							    		"Saulo Campos Nunes de Souza\n");
 							    Button btnOk = new Button(dialog, SWT.PUSH);
 								btnOk.setText("Ok");
@@ -196,7 +196,7 @@ public class Main { //extends org.eclipse.swt.widgets.Composite {
 				});
 				
 			Group groupMetric = new Group(fakeComposite, SWT.SHADOW_IN);
-			groupMetric.setText("Métrica");
+			groupMetric.setText("Mï¿½trica");
 			groupMetric.setLayout(new RowLayout(SWT.VERTICAL));
 				metric = new Combo(groupMetric, SWT.DROP_DOWN);
 				metric.setItems(metrics);
@@ -243,45 +243,47 @@ public class Main { //extends org.eclipse.swt.widgets.Composite {
 			btnSearch.addListener(SWT.Selection, new Listener() {
 				public void handleEvent(Event event) {
 					
-					list = new ArrayList<Edge>();
+					Search.estadoDeEnlace(graph, metricValue);
 					
-					System.out.println(astar);
-					if (astar == true){
-						list = Search.AStar(nodeSource, nodeDest, graph, metricValue);
-					}
-					if (width == true){
-						list = Search.width(nodeSource, nodeDest, graph, metricValue);
-					}
-					System.out.println("Tamanho da lista: " + list.size());
-					for (Edge name : list){
-						System.out.println(name.getSrc().getName() + "->" + name.getDst().getName());
-					}
-					String tmppath = "tmppath.xml";
-					
-					try {
-						System.out.println("antes metricvalue-> " + metricValue);
-						parser.GraphToXml(graph, list, metricValue, tmppath);
-						//panel = new java.awt.Panel(new java.awt.BorderLayout());
-						graphFrame.remove(panel);
-						
-						panel = new java.awt.Panel(new java.awt.BorderLayout());						
-					    panel.add(GraphViewEdgeDecoratorV2.demo(tmppath, "name", graphComposite.getSize().x, graphComposite.getSize().x));
-					    
-					    list = null;
-					   	    
-					    graphFrame.add(panel);
-					    graphFrame.repaint();
-					    graphFrame.setVisible(true);
-					    
-					    
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					//list.add(graph.getEdgelist().get(16));
-					//list.add(graph.getEdgelist().get(16));
-					//list.add(graph.getEdgelist().get(16));
-					
+//					list = new ArrayList<Edge>();
+//					
+//					System.out.println(astar);
+//					if (astar == true){
+//						list = Search.AStar(nodeSource, nodeDest, graph, metricValue);
+//					}
+//					if (width == true){
+//						list = Search.width(nodeSource, nodeDest, graph, metricValue);
+//					}
+//					System.out.println("Tamanho da lista: " + list.size());
+//					for (Edge name : list){
+//						System.out.println(name.getSrc().getName() + "->" + name.getDst().getName());
+//					}
+//					String tmppath = "tmppath.xml";
+//					
+//					try {
+//						System.out.println("antes metricvalue-> " + metricValue);
+//						parser.GraphToXml(graph, list, metricValue, tmppath);
+//						//panel = new java.awt.Panel(new java.awt.BorderLayout());
+//						graphFrame.remove(panel);
+//						
+//						panel = new java.awt.Panel(new java.awt.BorderLayout());						
+//					    panel.add(GraphViewEdgeDecoratorV2.demo(tmppath, "name", graphComposite.getSize().x, graphComposite.getSize().x));
+//					    
+//					    list = null;
+//					   	    
+//					    graphFrame.add(panel);
+//					    graphFrame.repaint();
+//					    graphFrame.setVisible(true);
+//					    
+//					    
+//					} catch (IOException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//					//list.add(graph.getEdgelist().get(16));
+//					//list.add(graph.getEdgelist().get(16));
+//					//list.add(graph.getEdgelist().get(16));
+//					
 					
 				}
 			});
@@ -324,13 +326,13 @@ public class Main { //extends org.eclipse.swt.widgets.Composite {
 			rotAvailable.setBackground(shell.getDisplay().getSystemColor(SWT.COLOR_BLUE));
 			rotAvailable.setText("   ");
 			CLabel available = new CLabel(groupSubLink, SWT.LEFT);
-			available.setText("Disponível");
+			available.setText("Disponï¿½vel");
 			
 			CLabel rotUnAvailable = new CLabel(groupSubLink, SWT.LEFT);
 			rotUnAvailable.setBackground(shell.getDisplay().getSystemColor(SWT.COLOR_RED));
 			rotUnAvailable.setText("   ");
 			CLabel unAvailable = new CLabel(groupSubLink, SWT.LEFT);
-			unAvailable.setText("Indisponível");
+			unAvailable.setText("Indisponï¿½vel");
 			
 			CLabel rotPath = new CLabel(groupSubLink, SWT.LEFT);
 			rotPath.setBackground(shell.getDisplay().getSystemColor(SWT.COLOR_GREEN));
@@ -396,7 +398,7 @@ public class Main { //extends org.eclipse.swt.widgets.Composite {
 	public static void main(String[] args) {
 		Display display = Display.getDefault();
 		Shell shell = new Shell(display);
-		shell.setText("Trabalho de Inteligência Artificial");
+		shell.setText("Trabalho de ComunicaÃ§Ã£o de Dados");
 		shell.setMaximized(true);
 		Main inst = new Main(shell, SWT.NULL);
 		//Point size = inst.getSize();

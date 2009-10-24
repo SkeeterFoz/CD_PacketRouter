@@ -9,6 +9,7 @@ import org.eclipse.swt.internal.cde.DtActionArg;
 import model.Edge;
 import model.Heuristic;
 import model.Node;
+import model.Packet;
 
 public class Search {
 	/**
@@ -575,5 +576,54 @@ public class Search {
 			return true;
 		}	
 		return false;
+	}
+	
+	public static void estadoDeEnlace(Graph graph, int metric) 
+	{
+		ArrayList<Node> nodes = graph.getNodelist();
+		ArrayList<Edge> edges = graph.getEdgelist();
+		
+		for (Node node : nodes) {
+			
+			/**
+			 * Criação de pacote
+			 */
+			Packet pkt = new Packet();
+			pkt.setOrigem(node);
+			pkt.setIdade(0);
+			
+			/**
+			 * Preenchendo com vizinhos e seus tempos
+			 */
+			ArrayList<Edge> tmp = new ArrayList<Edge>();
+			for (Edge edge : edges) {
+				if (node == edge.getSrc() || node == edge.getDst())
+					tmp.add(edge);
+			}
+			pkt.setCaminho(tmp);
+
+//			DEBUG			
+//			System.out.println("origem: " + pkt.getOrigem().getName());
+//			System.out.println("idade: " + pkt.getIdade());
+//			for (Edge edge : pkt.getCaminho())
+//				System.out.println("caminho: "+ edge.getSrc().getName() + " " + edge.getDst().getName());
+			
+			/**
+			 * Enviar pacote para todos os outros roteadores
+			 */
+			for (Node node2 : nodes) {
+				// Não enviar pra si mesmo
+				if (node == node2) 
+					continue;
+				
+				ArrayList<Packet> pktlist = new ArrayList<Packet>();
+				node2.getPacotes();
+				pktlist.add(pkt);
+				node2.setPacotes(pktlist);
+				
+			}
+			
+		}
+		
 	}
 }
