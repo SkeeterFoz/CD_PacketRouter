@@ -644,7 +644,6 @@ public class Search {
 		ArrayList<Edge> edges = graph.getEdgelist();
 		
 		ArrayList<NodeDist> distancia = new ArrayList<NodeDist>();
-		ArrayList<NodePai> pai = new ArrayList<NodePai>();
 		ArrayList<NodeDist> listaVertices = new ArrayList<NodeDist>();
 		ArrayList<Table> tabela = new ArrayList<Table>();
 		
@@ -659,7 +658,7 @@ public class Search {
 				distancia.add(nodeDist);
 				listaVertices.add(nodeDist);
 			}
-			pai.add(new NodePai(noded, null));
+			noded.setFather(null);
 		}
 		
 		while(listaVertices.size() > 0) {
@@ -674,12 +673,7 @@ public class Search {
 						if (nodeD.getNode() == aresta.getSrc()) {
 							if (dist < nodeD.getDistancia()) {
 								nodeD.setDistancia(dist);
-								for (NodePai nPai: pai) {
-									if (nPai.getNode() == nodeD.getNode()) {
-										nPai.setPai(menorDist.getNode());
-										break;
-									}
-								} 
+								nodeD.getNode().setFather(menorDist.getNode());
 							}
 							break;
 						}
@@ -690,12 +684,7 @@ public class Search {
 						if (nodeD.getNode() == aresta.getDst()) {
 							if (dist < nodeD.getDistancia()) {
 								nodeD.setDistancia(dist);
-								for (NodePai nPai: pai) {
-									if (nPai.getNode() == nodeD.getNode()) {
-										nPai.setPai(menorDist.getNode());
-										break;
-									}
-								} 
+								nodeD.getNode().setFather(menorDist.getNode());
 							}
 							break;
 						}	
@@ -706,13 +695,10 @@ public class Search {
 		
 //		DEBUG			
 		System.out.println("Distancia apos calculo");
-		for (NodeDist no : distancia)
-			System.out.println("No: "+ no.getNode().getName() + "\tDistancia: " + no.getDistancia());
-		System.out.println("Pai");
-		for (NodePai no : pai) {
-			System.out.print("No: "+ no.getNode().getName());
-			if (no.getPai() != null) {
-				System.out.println("\tPai: " + no.getPai().getName());
+		for (NodeDist no : distancia) {
+			System.out.print("No: "+ no.getNode().getName() + "\tDistancia: " + no.getDistancia());
+			if (no.getNode().getFather() != null) {
+				System.out.println("\tPai: " + no.getNode().getFather().getName());
 			} else {
 				System.out.println("\t Sem pai");
 			}
