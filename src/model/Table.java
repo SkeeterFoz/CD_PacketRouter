@@ -38,4 +38,13 @@ public class Table {
 		this.custo = custo;
 	}
 	
+	public void print() {
+		System.out.print("Destino: " + destino.getName() + "\tCusto: " + this.getCusto());
+		if (this.linha != null) {
+				System.out.println("\tArestaS: " + linha.getSrc().getName() + "\tArestaD: " + linha.getDst().getName());
+		} else {
+			System.out.println("\t Aresta não encontrada");
+		}
+	}
+	
 }

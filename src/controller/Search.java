@@ -632,11 +632,12 @@ public class Search {
 		/**
 		 * Dijkstra
 		 */
-		dijkstra(graph, nodes.get(0));
-//		for (Node node : nodes) {
-
-//		}
 		
+		for (Node node : nodes) {
+			node.setTabela(dijkstra(graph, node));
+		}
+		for (Edge edge: getCircuito(nodes.get(1), nodes.get(2)))
+			System.out.println("Origem: " + edge.getSrc().getName() + "\tDestino: " + edge.getDst().getName());
 	}
 	
 	public static ArrayList<Table> dijkstra(Graph graph, Node atual) {
@@ -704,28 +705,59 @@ public class Search {
 			}
 		}
 		
-//		for (NodeDist nodeD: distancia) {
-//			//Se não for o nó de origem nem um inalcansável
-//			if ((nodeD.getDistancia() > 0) && (nodeD.getDistancia() < Integer.MAX_VALUE)) {
-//				for (NodePai nPai: pai) {
-//					if (nPai.getNode() == nodeD.getNode()) {
-//						Node paiAtual = nPai.getPai();
-//						Node paiAux = nPai.getPai();
-//						while (paiAtual != null) {
-//							paiAux = paiAtual;
-//							
-//						}
-//						break;
-//					}
-//				} 
-//			} else if (nodeD.getDistancia() == 0) { //Nó origem
-//				tabela.add(new Table(nodeD.getNode(), null, 0));
-//			} else { //Nó Inalcansável
-//				tabela.add(new Table(nodeD.getNode(), null, Integer.MAX_VALUE));
-//			}
-//							
-//		}
+		for (NodeDist nodeD: distancia) {
+			//Se não for o nó de origem nem um inalcansável
+			if ((nodeD.getDistancia() > 0) && (nodeD.getDistancia() < Integer.MAX_VALUE)) {
+				Node paiAtual = nodeD.getNode().getFather();
+				Node paiAux = nodeD.getNode();
+				while (paiAtual != atual) {
+					paiAux = paiAtual;
+					paiAtual = paiAtual.getFather();
+				}
+				Edge aresta = null;
+//				System.out.println("No: " + nodeD.getNode().getName() + "\tPaiAux: " + paiAux.getName());
+				for (Edge edge : edges) {
+					if (((edge.getSrc() == atual) && (edge.getDst() == paiAux)) || 
+							((edge.getSrc() == paiAux) && (edge.getDst() == atual))) {
+						aresta = edge;
+//						System.out.println("Origem: " + edge.getSrc().getName() + 
+//								"\tDestino: " + edge.getDst().getName());
+					}
+				}
+				tabela.add(new Table(nodeD.getNode(), aresta, nodeD.getDistancia()));
+			} else if (nodeD.getDistancia() == 0) { //Nó origem
+				tabela.add(new Table(nodeD.getNode(), null, 0));
+			} else { //Nó Inalcansável
+				tabela.add(new Table(nodeD.getNode(), null, Integer.MAX_VALUE));
+			}
+							
+		}
+		
+//		DEBUG			
+		System.out.println("Tabela de Roteamento do " + atual.getName());
+		for (Table tab : tabela) {
+			tab.print();
+		}
 		
 		return tabela;
+	}
+	
+	public static ArrayList<Edge> getCircuito(Node origem, Node destino) {
+		ArrayList<Edge> circuito = new ArrayList<Edge>();
+		Node aux = origem;
+		while (aux != destino) {
+			for (Table tabela: aux.getTabela()) {
+				if (tabela.getDestino() == destino) {
+					circuito.add(tabela.getLinha());
+					if (tabela.getLinha().getSrc() == aux) {
+						aux = tabela.getLinha().getDst();
+					} else {
+						aux = tabela.getLinha().getSrc();
+					}
+				}
+			}
+		}
+		
+		return circuito;
 	}
 }
