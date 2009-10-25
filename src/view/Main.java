@@ -335,30 +335,25 @@ public class Main {
 				      column.setWidth(60);
 				    }
 				   
-			/*Button btnSearch = new Button(fakeComposite, SWT.PUSH);
+			Button btnSearch = new Button(fakeComposite, SWT.PUSH);
 			btnSearch.setText("Procurar");
 			btnSearch.addListener(SWT.Selection, new Listener() {
 				public void handleEvent(Event event) {
 					
 					Search.estadoDeEnlace(graph, metricValue);
 					
-//					list = new ArrayList<Edge>();
-//					
-//					System.out.println(astar);
-//					if (astar == true){
-//						list = Search.AStar(nodeSource, nodeDest, graph, metricValue);
-//					}
-//					if (width == true){
-//						list = Search.width(nodeSource, nodeDest, graph, metricValue);
-//					}
-//					System.out.println("Tamanho da lista: " + list.size());
-//					for (Edge name : list){
-//						System.out.println(name.getSrc().getName() + "->" + name.getDst().getName());
-//					}
-//					
-//					refreshGraph();					
+					list = new ArrayList<Edge>();
+					
+					list = Search.getCircuito(nodeSource, nodeDest);
+					
+					//System.out.println("Tamanho da lista: " + list.size());
+					/*for (Edge name : list){
+						System.out.println(name.getSrc().getName() + "->" + name.getDst().getName());
+					}*/
+					
+					refreshGraph();					
 				}
-			});*/
+			});
 			
 			graphComposite = new Composite(shell, SWT.EMBEDDED);
 			graphComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -467,6 +462,7 @@ public class Main {
 				    		subItem = new TreeItem(item, SWT.NONE);
 					        subItem.setText(new String[] { node.getName() });
 				    	}
+				    	
 				    	//TODO SUBSUBITENS - TABELAS
 				    }
 			    }

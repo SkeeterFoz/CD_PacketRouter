@@ -619,27 +619,38 @@ public class Search extends TimerTask {
 				// Não enviar pra si mesmo
 				if (node == node2) 
 					continue;
-				
-				node2.getPacotes().add(pkt);
+				if (node.getSa().equals(node2.getSa()))
+					node2.getPacotes().add(pkt);
 
 			}
 			
-			
-			
+			//Criando as tabelas de roteamento para o estado de enlace
+			node.setTabela(dijkstra(graph, node, metric));
 		}
-		
-		/**
-		 * Dijkstra
-		 */
 		
 		for (Node node : nodes) {
-			node.setTabela(dijkstra(graph, node));
+			/**
+			 * Verificar se o vértice é ligação entre SAs
+			 */
+			ArrayList<Edge> vizinhos = node.getVizinhos(edges);
+			for (Edge edge : vizinhos) {
+				Node destino = (node == edge.getSrc()) ? edge.getDst() : edge.getSrc();
+				if (node.getSa().equals(destino.getSa()))
+					continue;
+				else {
+						
+						// Cria Tabela de Roteamento para Vetor Distância
+				}
+				
+			}
 		}
-		for (Edge edge: getCircuito(nodes.get(1), nodes.get(2)))
-			System.out.println("Origem: " + edge.getSrc().getName() + "\tDestino: " + edge.getDst().getName());
+		
+		//DEBUG
+//		for (Edge edge: getCircuito(nodes.get(1), nodes.get(2)))
+//			System.out.println("Origem: " + edge.getSrc().getName() + "\tDestino: " + edge.getDst().getName());
 	}
 	
-	public static ArrayList<Table> dijkstra(Graph graph, Node atual) {
+	public static ArrayList<Table> dijkstra(Graph graph, Node atual, int metric) {
 		ArrayList<Node> nodes = graph.getNodelist();
 		ArrayList<Edge> edges = graph.getEdgelist();
 		
@@ -654,9 +665,11 @@ public class Search extends TimerTask {
 				distancia.add(0, nodeDist);
 				listaVertices.add(0, nodeDist);
 			} else {
-				NodeDist nodeDist = new NodeDist(noded, Integer.MAX_VALUE);
-				distancia.add(nodeDist);
-				listaVertices.add(nodeDist);
+				if (noded.getSa().equals(atual.getSa())) {
+					NodeDist nodeDist = new NodeDist(noded, Integer.MAX_VALUE);
+					distancia.add(nodeDist);
+					listaVertices.add(nodeDist);
+				}
 			}
 			noded.setFather(null);
 		}
@@ -667,7 +680,24 @@ public class Search extends TimerTask {
 			if (menorDist.getDistancia() == Integer.MAX_VALUE)
 				break;
 			for (Edge aresta: menorDist.getNode().getVizinhos(edges)) {
-				int dist = menorDist.getDistancia() + aresta.getDist();
+				int dist = 0;
+				switch (metric) {
+				case 0: { // Distância
+					dist = menorDist.getDistancia() + aresta.getDist();
+				}
+				break;
+				case 1: { // Tempo de Retardo
+					dist = menorDist.getDistancia() + aresta.getRettime();
+				}
+				break;
+				case 2: { // Hop Count
+					dist = menorDist.getDistancia() + aresta.getHopcount();
+				}
+				break;
+				case 3: { // Largura de Banda
+					dist = menorDist.getDistancia() + aresta.getBandwidth();
+				}
+				}
 				if (menorDist.getNode() == aresta.getDst()) {
 					for (NodeDist nodeD: distancia) {
 						if (nodeD.getNode() == aresta.getSrc()) {
@@ -704,6 +734,9 @@ public class Search extends TimerTask {
 			}
 		}
 		
+		/**
+		 * Montando tabela de roteamento
+		 */
 		for (NodeDist nodeD: distancia) {
 			//Se não for o nó de origem nem um inalcansável
 			if ((nodeD.getDistancia() > 0) && (nodeD.getDistancia() < Integer.MAX_VALUE)) {

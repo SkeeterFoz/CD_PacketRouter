@@ -38,6 +38,22 @@ public class Node {
 	 */
 	private ArrayList<Table> tabela;
 	
+	private ArrayList<Table> tabelaOutrosSA;
+	
+	/**
+	 * @return the tabelaOutrosSA
+	 */
+	public ArrayList<Table> getTabelaOutrosSA() {
+		return tabelaOutrosSA;
+	}
+
+	/**
+	 * @param tabelaOutrosSA the tabelaOutrosSA to set
+	 */
+	public void setTabelaOutrosSA(ArrayList<Table> tabelaOutrosSA) {
+		this.tabelaOutrosSA = tabelaOutrosSA;
+	}
+
 	private ArrayList<Packet> pacotes;
 
 	public long getId() {
@@ -122,9 +138,16 @@ public class Node {
 	
 	public ArrayList<Edge> getVizinhos(ArrayList<Edge> edges) {
 		ArrayList<Edge> tmp = new ArrayList<Edge>();
+		
+		if (!this.isState())
+			return tmp;
+		
 		for (Edge edge : edges) {
-			if (this == edge.getSrc() || this == edge.getDst())
+			if ((this == edge.getSrc()) && edge.getDst().isState()) {
 				tmp.add(edge);
+			} else if ((this == edge.getDst() && edge.getSrc().isState())) {
+				tmp.add(edge);
+			}
 		}
 		return tmp;
 	}
