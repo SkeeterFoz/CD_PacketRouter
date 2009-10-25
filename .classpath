@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/home/igor/devel/workspace/CD_PacketRouter/plugins/prefuse.jar"/>
-	<classpathentry kind="lib" path="/home/igor/devel/workspace/CD_PacketRouter/plugins/swt-lnx64.jar"/>
+	<classpathentry kind="lib" path="/home/newton/workspace2/CD-packetRouter/plugins/org.eclipse.swt.gtk.linux.x86_3.4.0.v3448f.jar"/>
+	<classpathentry kind="lib" path="/home/newton/workspace2/CD-packetRouter/plugins/prefuse.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

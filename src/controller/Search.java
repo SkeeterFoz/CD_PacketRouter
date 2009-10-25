@@ -2,6 +2,8 @@ package controller;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 import org.eclipse.swt.internal.cde.DtActionArg;
@@ -9,7 +11,10 @@ import org.eclipse.swt.internal.cde.DtActionArg;
 import model.Edge;
 import model.Heuristic;
 import model.Node;
+import model.NodeDist;
+import model.NodePai;
 import model.Packet;
+import model.Table;
 
 public class Search {
 	/**
@@ -620,7 +625,121 @@ public class Search {
 
 			}
 			
+			
+			
 		}
 		
+		/**
+		 * Dijkstra
+		 */
+		dijkstra(graph, nodes.get(0));
+//		for (Node node : nodes) {
+
+//		}
+		
+	}
+	
+	public static ArrayList<Table> dijkstra(Graph graph, Node atual) {
+		ArrayList<Node> nodes = graph.getNodelist();
+		ArrayList<Edge> edges = graph.getEdgelist();
+		
+		ArrayList<NodeDist> distancia = new ArrayList<NodeDist>();
+		ArrayList<NodePai> pai = new ArrayList<NodePai>();
+		ArrayList<NodeDist> listaVertices = new ArrayList<NodeDist>();
+		ArrayList<Table> tabela = new ArrayList<Table>();
+		
+		//Inicialização
+		for (Node noded : nodes) {
+			if (noded.equals(atual)) {
+				NodeDist nodeDist = new NodeDist(noded, 0); 
+				distancia.add(0, nodeDist);
+				listaVertices.add(0, nodeDist);
+			} else {
+				NodeDist nodeDist = new NodeDist(noded, Integer.MAX_VALUE);
+				distancia.add(nodeDist);
+				listaVertices.add(nodeDist);
+			}
+			pai.add(new NodePai(noded, null));
+		}
+		
+		while(listaVertices.size() > 0) {
+			Collections.sort(listaVertices);
+			NodeDist menorDist = listaVertices.remove(0);
+			if (menorDist.getDistancia() == Integer.MAX_VALUE)
+				break;
+			for (Edge aresta: menorDist.getNode().getVizinhos(edges)) {
+				int dist = menorDist.getDistancia() + aresta.getDist();
+				if (menorDist.getNode() == aresta.getDst()) {
+					for (NodeDist nodeD: distancia) {
+						if (nodeD.getNode() == aresta.getSrc()) {
+							if (dist < nodeD.getDistancia()) {
+								nodeD.setDistancia(dist);
+								for (NodePai nPai: pai) {
+									if (nPai.getNode() == nodeD.getNode()) {
+										nPai.setPai(menorDist.getNode());
+										break;
+									}
+								} 
+							}
+							break;
+						}
+							
+					}
+				} else {
+					for (NodeDist nodeD: distancia) {
+						if (nodeD.getNode() == aresta.getDst()) {
+							if (dist < nodeD.getDistancia()) {
+								nodeD.setDistancia(dist);
+								for (NodePai nPai: pai) {
+									if (nPai.getNode() == nodeD.getNode()) {
+										nPai.setPai(menorDist.getNode());
+										break;
+									}
+								} 
+							}
+							break;
+						}	
+					}
+				}
+			}
+		}
+		
+//		DEBUG			
+		System.out.println("Distancia apos calculo");
+		for (NodeDist no : distancia)
+			System.out.println("No: "+ no.getNode().getName() + "\tDistancia: " + no.getDistancia());
+		System.out.println("Pai");
+		for (NodePai no : pai) {
+			System.out.print("No: "+ no.getNode().getName());
+			if (no.getPai() != null) {
+				System.out.println("\tPai: " + no.getPai().getName());
+			} else {
+				System.out.println("\t Sem pai");
+			}
+		}
+		
+//		for (NodeDist nodeD: distancia) {
+//			//Se não for o nó de origem nem um inalcansável
+//			if ((nodeD.getDistancia() > 0) && (nodeD.getDistancia() < Integer.MAX_VALUE)) {
+//				for (NodePai nPai: pai) {
+//					if (nPai.getNode() == nodeD.getNode()) {
+//						Node paiAtual = nPai.getPai();
+//						Node paiAux = nPai.getPai();
+//						while (paiAtual != null) {
+//							paiAux = paiAtual;
+//							
+//						}
+//						break;
+//					}
+//				} 
+//			} else if (nodeD.getDistancia() == 0) { //Nó origem
+//				tabela.add(new Table(nodeD.getNode(), null, 0));
+//			} else { //Nó Inalcansável
+//				tabela.add(new Table(nodeD.getNode(), null, Integer.MAX_VALUE));
+//			}
+//							
+//		}
+		
+		return tabela;
 	}
 }

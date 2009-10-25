@@ -2,12 +2,18 @@ package model;
 
 public class Table {
 	
+	public Table(Node dest, Edge li, int cust) {
+		this.setDestino(dest);
+		this.setLinha(li);
+		this.setCusto(cust);
+	}
+	
 	private Node destino;
 	
 	private Edge linha;
 	
 	private int custo;
-
+	
 	public Node getDestino() {
 		return destino;
 	}

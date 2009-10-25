@@ -120,5 +120,13 @@ public class Node {
 		this.pacotes = pacotes;
 	}
 	
+	public ArrayList<Edge> getVizinhos(ArrayList<Edge> edges) {
+		ArrayList<Edge> tmp = new ArrayList<Edge>();
+		for (Edge edge : edges) {
+			if (this == edge.getSrc() || this == edge.getDst())
+				tmp.add(edge);
+		}
+		return tmp;
+	}
 	
 }
