@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.TimerTask;
 
 import org.eclipse.swt.internal.cde.DtActionArg;
 
@@ -16,7 +17,7 @@ import model.NodePai;
 import model.Packet;
 import model.Table;
 
-public class Search {
+public class Search extends TimerTask {
 	/**
 	 * Função que encontra o menor caminho entre dois nós com ajuda de uma heurística
 	 * @param source Nó de origem
@@ -759,5 +760,11 @@ public class Search {
 		}
 		
 		return circuito;
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
 	}
 }
