@@ -3,7 +3,7 @@ package view;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
-import java.util.Vector;
+//import java.util.Vector;
 
 import controller.Parser;
 import controller.Graph;
@@ -335,9 +335,6 @@ public class Main {
 				      column.setWidth(60);
 				    }
 				   
-				    
-				
-				
 			/*Button btnSearch = new Button(fakeComposite, SWT.PUSH);
 			btnSearch.setText("Procurar");
 			btnSearch.addListener(SWT.Selection, new Listener() {
@@ -450,8 +447,9 @@ public class Main {
 				}
 				
 				panel = new java.awt.Panel(new java.awt.BorderLayout());
+
 			    panel.add(GraphViewEdgeDecoratorV2.demo(infile, "name", graphComposite.getSize().x, graphComposite.getSize().y));		 
-			    
+
 			    for (Node node:nodeList){
 			    	if (node.isState()){
 			    		listUp.add(node.getName());
@@ -459,7 +457,6 @@ public class Main {
 			    		listDown.add(node.getName());
 			    	}
 			    }
-			    
 			    
 			    ArrayList<String> saList = getSaList(nodeList);
 			    for (String in:saList){
@@ -473,7 +470,6 @@ public class Main {
 				    	//TODO SUBSUBITENS - TABELAS
 				    }
 			    }
-			    
 			    
 			    graphFrame.add(panel);
 			    panel.setVisible(true);
@@ -496,7 +492,7 @@ public class Main {
 		try {
 			String tmppath = "tmppath.xml";
 			parser.GraphToXml(graph, list, metricValue, tmppath);
-			
+
 			graphFrame.remove(panel);
 			graphFrame.dispose();
 			
@@ -514,7 +510,6 @@ public class Main {
 			e.printStackTrace();
 		}
 	}
-	
 	
 	public ArrayList<String> getSaList(ArrayList<Node> nodes){
 		ArrayList<String> saList = new ArrayList<String>();

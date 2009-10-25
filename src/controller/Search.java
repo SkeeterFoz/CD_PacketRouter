@@ -578,6 +578,10 @@ public class Search extends TimerTask {
 		return false;
 	}
 	
+	public void run() {
+		System.out.println("UHEEET!");
+	}
+	
 	public static void estadoDeEnlace(Graph graph, int metric) 
 	{
 		ArrayList<Node> nodes = graph.getNodelist();
@@ -754,11 +758,5 @@ public class Search extends TimerTask {
 		}
 		
 		return circuito;
-	}
-
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		
 	}
 }
