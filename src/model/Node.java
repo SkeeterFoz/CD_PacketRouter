@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 public class Node {
 	
+	public Node() {
+		this.child = new ArrayList<Node>();
+		this.tabelaOutrosSA = new ArrayList<Table>();
+	}
+	
 	private long id;
 	
 	private String name;

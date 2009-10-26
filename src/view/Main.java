@@ -340,7 +340,7 @@ public class Main {
 			btnSearch.addListener(SWT.Selection, new Listener() {
 				public void handleEvent(Event event) {
 					
-					Search.estadoDeEnlace(graph, metricValue);
+					//Search.estadoDeEnlace(graph, metricValue);
 					
 					list = new ArrayList<Edge>();
 					
@@ -472,7 +472,7 @@ public class Main {
 			    graphFrame.setVisible(true);
 			    
 			    timer = new Timer();
-			    timer.schedule(new Search(), 0, 30000);
+			    timer.schedule(new Search(this.graph, this.metricValue), 0, 30000);
 			    
 			    
 			}else

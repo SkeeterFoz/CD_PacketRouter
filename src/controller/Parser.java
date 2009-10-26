@@ -54,10 +54,10 @@ public class Parser {
 					continue;
 				}
 				
-				if (buf[i].contains("h(")) {
-					vh.add(buf[i]);
-					continue;
-				}
+//				if (buf[i].contains("h(")) {
+//					vh.add(buf[i]);
+//					continue;
+//				}
 			}
 			
 			int j;
@@ -65,7 +65,7 @@ public class Parser {
 			
 			an = new ArrayList<Node>();
 			ae = new ArrayList<Edge>();
-			ah = new ArrayList<Heuristic>();
+//			ah = new ArrayList<Heuristic>();
 			
 			for (j=0; j < vn.size(); j++) {
 				strtok = new StringTokenizer(vn.elementAt(j), "(");
@@ -155,33 +155,33 @@ public class Parser {
 			
 			g.setEdgelist(ae);
 			
-			for (j=0; j < vh.size(); j++) {
-				strtok = new StringTokenizer(vh.elementAt(j), "(");
-				strtok.nextToken();
-				strtok = new StringTokenizer(strtok.nextToken(), ")");
-				strtok = new StringTokenizer(strtok.nextToken(), ",");
-				
-				
-				Heuristic h = new Heuristic();
-				Node src = new Node();
-				Node dst = new Node();
-				
-				src = g.getNodeByName(strtok.nextToken().trim());
-				dst = g.getNodeByName(strtok.nextToken().trim());
-				
-				if ((src == null) || (dst == null)) {
-					throw new Exception("Aresta inv�lida");
-				}
-				
-				h.setSrc(src);
-				h.setDst(dst);
-				h.setW(Integer.parseInt(strtok.nextToken().trim()));
-				
-				ah.add(h);
-				
-			}
-			
-			g.setHeuristiclist(ah);
+//			for (j=0; j < vh.size(); j++) {
+//				strtok = new StringTokenizer(vh.elementAt(j), "(");
+//				strtok.nextToken();
+//				strtok = new StringTokenizer(strtok.nextToken(), ")");
+//				strtok = new StringTokenizer(strtok.nextToken(), ",");
+//				
+//				
+//				Heuristic h = new Heuristic();
+//				Node src = new Node();
+//				Node dst = new Node();
+//				
+//				src = g.getNodeByName(strtok.nextToken().trim());
+//				dst = g.getNodeByName(strtok.nextToken().trim());
+//				
+//				if ((src == null) || (dst == null)) {
+//					throw new Exception("Aresta inv�lida");
+//				}
+//				
+//				h.setSrc(src);
+//				h.setDst(dst);
+//				h.setW(Integer.parseInt(strtok.nextToken().trim()));
+//				
+//				ah.add(h);
+//				
+//			}
+//			
+//			g.setHeuristiclist(ah);
 			
 			
 			
